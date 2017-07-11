@@ -1,0 +1,15 @@
+{
+  "name": "100-days-javascript-algorithms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./test/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "benchmark": "^2.1.4"
+  },
+  "devDependencies": {}
+}
