@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "benchmark": "^2.1.4",
     "kab": "^0.1.6"
   },
   "devDependencies": {}
