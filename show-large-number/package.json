@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node ./test/index.js"
+    "test": "kab ./test/perf.md --node",
+    "start": "node ./test/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "benchmark": "^2.1.4"
+    "kab": "^0.1.6"
   },
   "devDependencies": {}
 }
