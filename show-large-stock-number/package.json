@@ -1,5 +1,5 @@
 {
-  "name": "show-large-number",
+  "name": "show-large-stock-number",
   "version": "1.0.0",
   "description": "javascript",
   "main": "dist/index.js",
@@ -11,7 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "benchmark": "^2.1.4",
-    "kab": "^0.1.6"
+    "kab": "^0.1.6",
+    "microtime": "^2.1.6"
   },
   "devDependencies": {}
 }
