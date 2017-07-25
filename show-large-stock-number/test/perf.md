@@ -2,48 +2,40 @@
 
 ```javascript
 
-var microtime = require('microtime');
+var firstFormatVol = function (vol) {
 
-var start = microtime.now();
+  var units = ['', 'K', 'M', 'B', 'T'];
 
-var replace = function (vol) {
+  return vol.toPrecision(3).replace(/^(\d+)\.(\d+)e\+(\d+)$/, function ($0, integer, fractional, pow) {
 
-    vol = Number(vol);
+    var mod = (pow % 3);
 
-    let bigs = [1e3, 1e6, 1e9, 1e12];
-    let unit = ['', 'K', 'M', 'B', 'T'][bigs.findIndex((v, k) => vol < v)];
+    var unit = units[(pow - mod) / 3];
 
-    return vol.toPrecision(3).replace(/e.+$/, '') + unit;
+    return unit ? (integer + fractional.slice(0, mod) + '.' + fractional.slice(mod) + unit) : $0;
+
+  });
 
 }
-var slice = function (vol) {
-
-    vol = Number(vol);
-
-    let bigs = [1e3, 1e6, 1e9, 1e12];
-    let unit = ['', 'K', 'M', 'B', 'T'][bigs.findIndex((v, k) => vol < v)];
-
-    return vol.toPrecision(3).slice(0, 4) + unit;
+var secondFormatVol = function (vol) {
 
 }
 ```
 
 
 ```javascript
-console.log(end - start)
+
 ```
 
 ### replace
 
 ```javascript
-replace(12345678);
-var end = microtime.now();
+firstFormatVol(12345678);
 ```
 
-### slice
+### if
 
 ```javascript
-slice(12345678);
-var end = microtime.now();
+secondFormatVol(12345678);
 ```
 
