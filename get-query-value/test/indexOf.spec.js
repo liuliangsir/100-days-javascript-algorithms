@@ -6,7 +6,7 @@ define(function (require) {
 
     describe("url parse specs", function () {
 
-        var url;
+        const url;
 
         beforeEach(function () {
             url = 'https://www.baidu.com/';
@@ -16,20 +16,12 @@ define(function (require) {
             url = '';
         });
 
-        describe('return empty object', function () {
+        describe('the result of parsing url should be empty object', function () {
             it('work for illegal url and no param key', function () {
 
                 expect(parseUrlByIndexOf(url)).toEqual({});
 
                 expect(parseUrlByIndexOf(url + '?')).toEqual({});
-
-                expect(parseUrlByIndexOf(url + '?name')).toEqual({});
-
-                expect(parseUrlByIndexOf(url + '?name=')).toEqual({});
-
-                expect(parseUrlByIndexOf(url + '?[name]=zhangsan')).toEqual({});
-
-                expect(parseUrlByIndexOf(url + '?[name]=[zhangsan]')).toEqual({});
 
             });
 
@@ -39,20 +31,11 @@ define(function (require) {
 
                 expect(parseUrlByIndexOf(url + '?', '')).toEqual({});
 
-                expect(parseUrlByIndexOf(url + '?name', '')).toEqual({});
-
-                expect(parseUrlByIndexOf(url + '?name=', '')).toEqual({});
-
-                expect(parseUrlByIndexOf(url + '?[name]=zhangsan', '')).toEqual({});
-
-                expect(parseUrlByIndexOf(url + '?[name]=[zhangsan]', '')).toEqual({});
-
-
             });
 
         });
 
-        describe('return empty string', function () {
+        describe('the result of parsing url should be empty string', function () {
             it('work for illegal url and whether or not param key is legal', function () {
 
                 expect(parseUrlByIndexOf(url, 'name')).toBe('');
@@ -76,7 +59,6 @@ define(function (require) {
                 expect(parseUrlByIndexOf(url + '?name=', 'me')).toBe('');
                 expect(parseUrlByIndexOf(url + '?name=', '[name]')).toBe('');
 
-                expect(parseUrlByIndexOf(url + '?name=+&zhangsan', 'name')).toBe('');
                 expect(parseUrlByIndexOf(url + '?name=+&zhangsan', ']name')).toBe('');
                 expect(parseUrlByIndexOf(url + '?name=+&zhangsan', 'me[')).toBe('');
                 expect(parseUrlByIndexOf(url + '?name=+&zhangsan', 'me')).toBe('');
@@ -132,7 +114,7 @@ define(function (require) {
             });
         });
 
-        describe('return not empty object', function () {
+        describe('the result of parsing url should be  non-object', function () {
             it('work for legal url and param key (empty string) or no param key', function () {
 
                 expect(parseUrlByIndexOf(url + '?name=zhangsan', '')).toEqual({
@@ -144,7 +126,7 @@ define(function (require) {
                 });
 
                 expect(parseUrlByIndexOf(url + '?+name=zhangsan', '')).toEqual({
-                    name: 'zhangsan'
+                    ' name': 'zhangsan'
                 });
 
                 expect(parseUrlByIndexOf(url + '?name=zhangsan&age=12', '')).toEqual({
@@ -153,28 +135,36 @@ define(function (require) {
                 });
 
                 expect(parseUrlByIndexOf(url + '?+name=+&zhangsan', '')).toEqual({
-                    name: '',
+                    ' name': ' ',
                     zhangsan: ''
                 });
 
                 expect(parseUrlByIndexOf(url + '?+name=+&zhangsan=+&age', '')).toEqual({
-                    name: '',
-                    zhangsan: '',
+                    ' name': ' ',
+                    zhangsan: ' ',
                     age: ''
                 });
 
                 expect(parseUrlByIndexOf(url + '?+name=+&zhangsan=+&age=', '')).toEqual({
-                    name: '',
-                    zhangsan: '',
+                    ' name': ' ',
+                    zhangsan: ' ',
                     age: ''
                 });
 
-                expect(parseUrlByIndexOf(url + '?person=nick&person[]=jeff&person[]=jim&person[extra]=john', '')).toEqual({
-                    0: 'neek',
-                    1: 'jeff',
-                    2: 'jim',
-                    length: 3,
-                    extra: 'john'
+                expect(parseUrlByIndexOf(url + '?name', '')).toEqual({
+                    name: ''
+                });
+
+                expect(parseUrlByIndexOf(url + '?name=', '')).toEqual({
+                    name: ''
+                });
+
+                expect(parseUrlByIndexOf(url + '?[name]=zhangsan', '')).toEqual({
+                    '[name]': 'zhangsan'
+                });
+
+                expect(parseUrlByIndexOf(url + '?[name]=[zhangsan]', '')).toEqual({
+                    '[name]': '[zhangsan]'
                 });
 
 
@@ -187,7 +177,7 @@ define(function (require) {
                 });
 
                 expect(parseUrlByIndexOf(url + '?+name=zhangsan')).toEqual({
-                    name: 'zhangsan'
+                    ' name': 'zhangsan'
                 });
 
                 expect(parseUrlByIndexOf(url + '?name=zhangsan&age=12')).toEqual({
@@ -196,56 +186,59 @@ define(function (require) {
                 });
 
                 expect(parseUrlByIndexOf(url + '?+name=+&zhangsan')).toEqual({
-                    name: '',
+                    ' name': ' ',
                     zhangsan: ''
                 });
 
-
                 expect(parseUrlByIndexOf(url + '?+name=+&zhangsan=+&age')).toEqual({
-                    name: '',
-                    zhangsan: '',
+                    ' name': ' ',
+                    zhangsan: ' ',
                     age: ''
                 });
 
                 expect(parseUrlByIndexOf(url + '?+name=+&zhangsan=+&age=')).toEqual({
-                    name: '',
-                    zhangsan: '',
+                    ' name': ' ',
+                    zhangsan: ' ',
                     age: ''
                 });
 
-                expect(parseUrlByIndexOf(url + '?person=neek&person[]=jeff&person[]=jim&person[extra]=john')).toEqual({
-                    0: 'neek',
-                    1: 'jeff',
-                    2: 'jim',
-                    length: 3,
-                    extra: 'john'
+                expect(parseUrlByIndexOf(url + '?name')).toEqual({
+                    name: ''
                 });
+
+                expect(parseUrlByIndexOf(url + '?name=')).toEqual({
+                    name: ''
+                });
+
+                expect(parseUrlByIndexOf(url + '?[name]=zhangsan')).toEqual({
+                    '[name]': 'zhangsan'
+                });
+
+                expect(parseUrlByIndexOf(url + '?[name]=[zhangsan]')).toEqual({
+                    '[name]': '[zhangsan]'
+                });
+
             });
 
         });
 
-        describe('return not empty string', function () {
+        describe('the result of parsing url should be non-string', function () {
             it('work for (il)legal url and (il)legal param key', function () {
 
                 expect(parseUrlByIndexOf(url + '?name=zhangsan', 'name')).toBe('zhangsan');
 
                 expect(parseUrlByIndexOf(url + '?[name]=zhangsan', '[name]')).toBe('zhangsan');
 
-                expect(parseUrlByIndexOf(url + '?+name=zhangsan', 'name')).toBe('zhangsan');
+                expect(parseUrlByIndexOf(url + '?+name=zhangsan', ' name')).toBe('zhangsan');
 
                 expect(parseUrlByIndexOf(url + '?name=[zhangsan]', 'name')).toBe('[zhangsan]');
 
                 expect(parseUrlByIndexOf(url + '?[name]=[zhangsan]', '[name]')).toBe('[zhangsan]');
 
-                expect(parseUrlByIndexOf(url + '?person=neek&person[]=jeff&person[]=jim&person[extra]=john', 0)).toBe('neek');
+                expect(parseUrlByIndexOf(url + '?name=+&zhangsan', 'name')).toBe(' ');
 
-                expect(parseUrlByIndexOf(url + '?person=neek&person[]=jeff&person[]=jim&person[extra]=john', 1)).toBe('jeff');
+                expect(parseUrlByIndexOf(url + '?+name=+&zhangsan', ' name')).toBe(' ');
 
-                expect(parseUrlByIndexOf(url + '?person=neek&person[]=jeff&person[]=jim&person[extra]=john', 2)).toBe('jim');
-
-                expect(parseUrlByIndexOf(url + '?person=neek&person[]=jeff&person[]=jim&person[extra]=john', 'length')).toBe(3);
-
-                expect(parseUrlByIndexOf(url + '?person=neek&person[]=jeff&person[]=jim&person[extra]=john', 'extra')).toBe('john');
             });
         });
 
