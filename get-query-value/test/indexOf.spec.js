@@ -54,6 +54,7 @@ define(function (require) {
                 expect(parseUrlByIndexOf(url + '?name', 'me')).toBe('');
                 expect(parseUrlByIndexOf(url + '?name', '[name]')).toBe('');
 
+                expect(parseUrlByIndexOf(url + '?name=', 'name')).toBe('');
                 expect(parseUrlByIndexOf(url + '?name=', ']name')).toBe('');
                 expect(parseUrlByIndexOf(url + '?name=', 'me[')).toBe('');
                 expect(parseUrlByIndexOf(url + '?name=', 'me')).toBe('');
@@ -70,6 +71,7 @@ define(function (require) {
                 expect(parseUrlByIndexOf(url + '?+name=+&zhangsan', 'me')).toBe('');
                 expect(parseUrlByIndexOf(url + '?+name=+&zhangsan', '[name]')).toBe('');
 
+                expect(parseUrlByIndexOf(url + '?+name=zhangsan', 'name')).toBe('');
                 expect(parseUrlByIndexOf(url + '?+name=zhangsan', ']name')).toBe('');
                 expect(parseUrlByIndexOf(url + '?+name=zhangsan', 'me[')).toBe('');
                 expect(parseUrlByIndexOf(url + '?+name=zhangsan', 'me')).toBe('');
@@ -97,7 +99,7 @@ define(function (require) {
 
                 expect(parseUrlByIndexOf(url + '?name=zhangsan', ']name')).toBe('');
 
-                expect(parseUrlByIndexOf(url + '?name=zhangsan', ']me')).toBe('');
+                expect(parseUrlByIndexOf(url + '?name=zhangsan', 'me[')).toBe('');
 
                 expect(parseUrlByIndexOf(url + '?[name]=zhangsan', ']name')).toBe('');
 
