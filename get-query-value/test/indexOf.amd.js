@@ -8,7 +8,7 @@ define(function () {
 
         var start = url.indexOf('?');
 
-        if (start < 0) return '';
+        if (start < 0) return {};
 
         var queryData = url.slice(start + 1);
         var legalKey = key ? key.replace(/[\-\[\]\{\}\(\)\*\+\?\.\,\\\^\$\|\#\s]/g, '\\$&') : key;
@@ -21,11 +21,18 @@ define(function () {
         var result = queryData.match(regexp);
 
         if (!result) {
+
+            if (isGlobalSearch) {
+                return {};
+            }
+
             return '';
         }
+
         if (result.input) {
             return decodeURIComponent(result[2]);
         }
+
         return result.reduce(function (pre, cur) {
             var parts = cur.split('=');
             pre[parts[0]] = decodeURIComponent(parts[1]);
