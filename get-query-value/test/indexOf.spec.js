@@ -31,8 +31,6 @@ define(function (require) {
 
                 expect(parseUrlByIndexOf(url + '?+name=zhangsan')).toEqual({});
 
-                expect(parseUrlByIndexOf(url + '?[name]=zhangsan')).toEqual({});
-
                 expect(parseUrlByIndexOf(url + '?[name]=[zhangsan]')).toEqual({});
 
                 expect(parseUrlByIndexOf(url + '?name=[zhangsan]')).toEqual({});
@@ -144,6 +142,9 @@ define(function (require) {
                     name: 'zhangsan'
                 });
 
+                expect(parseUrlByIndexOf(url + '?[name]=zhangsan')).toEqual({
+                    name: 'zhangsan'
+                });
             });
         });
 
