@@ -2,103 +2,35 @@
 
 ```javascript
 
-function parseUrlByDom(url, key = '') {
+var parseUrlByIndexOf = function (url, key) {
 
+    key = key || '';
 
-    const createQueryData = url => {
+    var start = url.indexOf('?');
 
-        let a = document.createElement('a');
+    if (start < 0) return '';
 
-        a.href = url;
+    var queryData = url.slice(start + 1);
+    var legalKey = key ? key.replace(/[\-\[\]\{\}\(\)\*\+\?\.\,\\\^\$\|\#\s]/g, '\\$&') : key;
+    var isGlobalSearch = !legalKey;
 
-        url = a.search.slice(1);
+    var regexp = isGlobalSearch
+        ? new RegExp('[^&]+?=([^&]+)(?=&)?', 'gi')
+        : new RegExp('(^|&)' + legalKey + '=([^&]+)(?=&)?', 'i');
 
-        a = null;
+    var result = queryData.match(regexp);
 
-        return url;
-    };
-
-    let flags = 'i';
-    let regexpTemplate = `${key}=([^&]+)(?=&)?`;
-    let isGlobalSearch = !key;
-
-    if (isGlobalSearch) {
-        flags += 'g';
-        regexpTemplate = `[^&]+?${regexpTemplate}`;
+    if (!result) {
+        return '';
     }
-
-    let regexp = new RegExp(regexpTemplate, flags);
-    let result = createQueryData(url).match(regexp);
-
-    const reduceCallback = (pre, cur) => {
-
-        let [k, v] = cur.split('=');
-
-        pre[k] = decodeURIComponent(v);
-
+    if (result.input) {
+        return decodeURIComponent(result[2]);
+    }
+    return result.reduce(function (pre, cur) {
+        var parts = cur.split('=');
+        pre[parts[0]] = decodeURIComponent(parts[1]);
         return pre;
-    };
-    const reduce = (arr, cb, initValue = {}) => {
-
-        return arr.reduce(cb, initValue);
-
-    }
-    return isGlobalSearch ? reduce(result, reduceCallback) : decodeURIComponent(result[1]);
-}
-
-function parseUrlByIndexOf(url, key = '') {
-
-
-    const createQueryData = url => url.slice(url.indexOf('?') + 1);
-
-    let flags = 'i';
-    let regexpTemplate = `${key}=([^&]+)(?=&)?`;
-    let isGlobalSearch = !key;
-
-    if (isGlobalSearch) {
-        flags += 'g';
-        regexpTemplate = `[^&]+?${regexpTemplate}`;
-    }
-
-    let regexp = new RegExp(regexpTemplate, flags);
-    let result = createQueryData(url).match(regexp);
-
-    const reduceCallback = (pre, cur) => {
-
-        let [k, v] = cur.split('=');
-
-        pre[k] = decodeURIComponent(v);
-
-        return pre;
-    };
-    const reduce = (arr, cb, initValue = {}) => {
-
-        return arr.reduce(cb, initValue);
-
-    }
-    return isGlobalSearch ? reduce(result, reduceCallback) : decodeURIComponent(result[1]);
-}
+    }, {});
+};
 
 ```
-
-
-```javascript
-
-```
-
-###parseUrl#dom
-
-```javascript
-
-parseUrlByDom('http://www.baidu.com/?user=aaa&age=18');
-
-```
-
-### parseUrl#indexOf
-
-```javascript
-
-parseUrlByIndexOf('http://www.baidu.com/?user=aaa&age=18');
-
-```
-

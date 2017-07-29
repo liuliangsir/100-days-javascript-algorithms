@@ -4,8 +4,7 @@
   "description": "javascript",
   "main": "dist/index.js",
   "scripts": {
-    "test": "kab ./test/perf.md --node",
-    "start": "node ./test/index.js"
+    "test": "kab ./test/perf.md --node"
   },
   "author": "",
   "license": "ISC",
@@ -14,5 +13,8 @@
     "kab": "^0.1.6",
     "microtime": "^2.1.6"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "jasmine": "^2.6.0"
+  }
 }

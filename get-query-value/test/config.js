@@ -1,5 +1,5 @@
 // Test configuration for kab
-// Generated on Thu Jul 13 2017 18:52:28 GMT+0800 (CST)
+// Generated on Fri Jul 28 2017 00:43:13 GMT+0800 (CST)
 module.exports = {
 
     node: false,
@@ -14,7 +14,7 @@ module.exports = {
 
     // list of files / patterns to load in the browser
     files: [
-        'test/**/*Spec.js'
+        'test/*.spec.js'
     ],
 
     // optionally, configure the reporter
@@ -42,10 +42,10 @@ module.exports = {
     // - PhantomJS
     // - IE (only Windows)
     browsers: [
-        // 'Chrome',
+        'Chrome',
         // 'Firefox',
         // 'Safari',
-        'PhantomJS'
+        // 'PhantomJS'
     ],
 
 

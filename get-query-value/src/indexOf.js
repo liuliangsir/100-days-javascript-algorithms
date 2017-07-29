@@ -3,48 +3,35 @@
  * @author chris<huanghoujin@kavout.com>
  */
 
-function parseUrlByIndexOf(url, key = '') {
+var parseUrlByIndexOf = function (url, key) {
 
     key = key || '';
 
-    let start = url.indexOf('?');
+    var start = url.indexOf('?');
 
-    if (start < 0) {
-        return '';
-    }
+    if (start < 0) return '';
 
-    let queryData = url.slice(start + 1);
-    let legalKey = key ? key.replace(/[\-\[\]\{\}\(\)\*\+\?\.\,\\\^\$\|\#\s]/g, '\\$&') : key;
-    let isGlobalSearch = !legalKey;
+    var queryData = url.slice(start + 1);
+    var legalKey = key ? key.replace(/[\-\[\]\{\}\(\)\*\+\?\.\,\\\^\$\|\#\s]/g, '\\$&') : key;
+    var isGlobalSearch = !legalKey;
 
-    let regexp = isGlobalSearch
+    var regexp = isGlobalSearch
         ? new RegExp('[^&]+?=([^&]+)(?=&)?', 'gi')
         : new RegExp('(^|&)' + legalKey + '=([^&]+)(?=&)?', 'i');
 
-    let result = queryData.match(regexp);
+    var result = queryData.match(regexp);
 
     if (!result) {
         return '';
     }
-    else if (result.input) {
+    if (result.input) {
         return decodeURIComponent(result[2]);
     }
-
-    const reduceCallback = function (pre, cur) {
-
-        let parts = cur.split('=');
-
+    return result.reduce(function (pre, cur) {
+        var parts = cur.split('=');
         pre[parts[0]] = decodeURIComponent(parts[1]);
-
         return pre;
-    };
+    }, {});
+};
 
-    const reduce = function (arr, cb, initValue = {}) {
 
-        return arr.reduce(cb, initValue);
-
-    };
-
-    return reduce(result, reduceCallback);
-}
-module.exports = parseUrl;
