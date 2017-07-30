@@ -7,23 +7,16 @@ define(function () {
         url = url || document.location.href || location.href;
 
         var start = url.indexOf('?');
-        var queryData = url.slice(start + 1);
-        var hasKey = arguments.length >= 2;
+        var queryData = decodeURIComponent(url.slice(start + 1));
+        var hasKey = arguments.length > 1;
 
         key = hasKey ? key + '' : '';
 
         if (start < 0 || !queryData) {
-
-            if (!hasKey || hasKey && key === '') {
-                return {};
-            }
-
-            if (hasKey && key !== '') {
-                return '';
-            }
+            return key ? '' : {};
         }
 
-        key = key.replace(/\s/g, '+');
+        key = key.replace(/\s/g, ' ');
 
         var legalKey = key ? key.replace(/[\-\[\]\{\}\(\)\*\+\?\.\,\\\^\$\|\#\s]/g, '\\$&') : key;
         var isGlobalSearch = !legalKey;
@@ -39,14 +32,12 @@ define(function () {
         }
 
         if (result.input) {
-            return decodeURIComponent(result[2].replace(/\+/g, ' '));
+            return result[2];
         }
 
         return result.reduce(function (pre, cur) {
-            var parts = cur.split('=').map(function (v) {
-                return v.replace(/\+/g, ' ');
-            });
-            pre[parts[0]] = decodeURIComponent(parts[1] || '');
+            var parts = cur.split('=');
+            pre[parts[0]] = parts[1] || '';
             return pre;
         }, {});
     };

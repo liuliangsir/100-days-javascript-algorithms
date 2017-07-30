@@ -52,22 +52,22 @@ define(function (require) {
                 expect(parseUrlByIndexOf(url + '?name=', 'me')).toBe('');
                 expect(parseUrlByIndexOf(url + '?name=', '[name]')).toBe('');
 
-                expect(parseUrlByIndexOf(url + '?name=+&zhangsan', ']name')).toBe('');
-                expect(parseUrlByIndexOf(url + '?name=+&zhangsan', 'me[')).toBe('');
-                expect(parseUrlByIndexOf(url + '?name=+&zhangsan', 'me')).toBe('');
-                expect(parseUrlByIndexOf(url + '?name=+&zhangsan', '[name]')).toBe('');
+                expect(parseUrlByIndexOf(url + '?name=%20&zhangsan', ']name')).toBe('');
+                expect(parseUrlByIndexOf(url + '?name=%20&zhangsan', 'me[')).toBe('');
+                expect(parseUrlByIndexOf(url + '?name=%20&zhangsan', 'me')).toBe('');
+                expect(parseUrlByIndexOf(url + '?name=%20&zhangsan', '[name]')).toBe('');
 
-                expect(parseUrlByIndexOf(url + '?+name=+&zhangsan', 'name')).toBe('');
-                expect(parseUrlByIndexOf(url + '?+name=+&zhangsan', ']name')).toBe('');
-                expect(parseUrlByIndexOf(url + '?+name=+&zhangsan', 'me[')).toBe('');
-                expect(parseUrlByIndexOf(url + '?+name=+&zhangsan', 'me')).toBe('');
-                expect(parseUrlByIndexOf(url + '?+name=+&zhangsan', '[name]')).toBe('');
+                expect(parseUrlByIndexOf(url + '?%20name=%20&zhangsan', 'name')).toBe('');
+                expect(parseUrlByIndexOf(url + '?%20name=%20&zhangsan', ']name')).toBe('');
+                expect(parseUrlByIndexOf(url + '?%20name=%20&zhangsan', 'me[')).toBe('');
+                expect(parseUrlByIndexOf(url + '?%20name=%20&zhangsan', 'me')).toBe('');
+                expect(parseUrlByIndexOf(url + '?%20name=%20&zhangsan', '[name]')).toBe('');
 
-                expect(parseUrlByIndexOf(url + '?+name=zhangsan', 'name')).toBe('');
-                expect(parseUrlByIndexOf(url + '?+name=zhangsan', ']name')).toBe('');
-                expect(parseUrlByIndexOf(url + '?+name=zhangsan', 'me[')).toBe('');
-                expect(parseUrlByIndexOf(url + '?+name=zhangsan', 'me')).toBe('');
-                expect(parseUrlByIndexOf(url + '?+name=zhangsan', '[name]')).toBe('');
+                expect(parseUrlByIndexOf(url + '?%20name=zhangsan', 'name')).toBe('');
+                expect(parseUrlByIndexOf(url + '?%20name=zhangsan', ']name')).toBe('');
+                expect(parseUrlByIndexOf(url + '?%20name=zhangsan', 'me[')).toBe('');
+                expect(parseUrlByIndexOf(url + '?%20name=zhangsan', 'me')).toBe('');
+                expect(parseUrlByIndexOf(url + '?%20name=zhangsan', '[name]')).toBe('');
 
                 expect(parseUrlByIndexOf(url + '?name=[zhangsan]', ']name')).toBe('');
                 expect(parseUrlByIndexOf(url + '?name=[zhangsan]', 'me[')).toBe('');
@@ -119,7 +119,7 @@ define(function (require) {
                     name: '[zhangsan]'
                 });
 
-                expect(parseUrlByIndexOf(url + '?+name=zhangsan', '')).toEqual({
+                expect(parseUrlByIndexOf(url + '?%20name=zhangsan', '')).toEqual({
                     ' name': 'zhangsan'
                 });
 
@@ -128,18 +128,18 @@ define(function (require) {
                     age: '12'
                 });
 
-                expect(parseUrlByIndexOf(url + '?+name=+&zhangsan', '')).toEqual({
+                expect(parseUrlByIndexOf(url + '?%20name=%20&zhangsan', '')).toEqual({
                     ' name': ' ',
                     zhangsan: ''
                 });
 
-                expect(parseUrlByIndexOf(url + '?+name=+&zhangsan=+&age', '')).toEqual({
+                expect(parseUrlByIndexOf(url + '?%20name=%20&zhangsan=%20&age', '')).toEqual({
                     ' name': ' ',
                     zhangsan: ' ',
                     age: ''
                 });
 
-                expect(parseUrlByIndexOf(url + '?+name=+&zhangsan=+&age=', '')).toEqual({
+                expect(parseUrlByIndexOf(url + '?%20name=%20&zhangsan=%20&age=', '')).toEqual({
                     ' name': ' ',
                     zhangsan: ' ',
                     age: ''
@@ -170,7 +170,7 @@ define(function (require) {
                     name: '[zhangsan]'
                 });
 
-                expect(parseUrlByIndexOf(url + '?+name=zhangsan')).toEqual({
+                expect(parseUrlByIndexOf(url + '?%20name=zhangsan')).toEqual({
                     ' name': 'zhangsan'
                 });
 
@@ -179,18 +179,18 @@ define(function (require) {
                     age: '12'
                 });
 
-                expect(parseUrlByIndexOf(url + '?+name=+&zhangsan')).toEqual({
+                expect(parseUrlByIndexOf(url + '?%20name=%20&zhangsan')).toEqual({
                     ' name': ' ',
                     zhangsan: ''
                 });
 
-                expect(parseUrlByIndexOf(url + '?+name=+&zhangsan=+&age')).toEqual({
+                expect(parseUrlByIndexOf(url + '?%20name=%20&zhangsan=%20&age')).toEqual({
                     ' name': ' ',
                     zhangsan: ' ',
                     age: ''
                 });
 
-                expect(parseUrlByIndexOf(url + '?+name=+&zhangsan=+&age=')).toEqual({
+                expect(parseUrlByIndexOf(url + '?%20name=%20&zhangsan=%20&age=')).toEqual({
                     ' name': ' ',
                     zhangsan: ' ',
                     age: ''
@@ -223,15 +223,15 @@ define(function (require) {
 
                 expect(parseUrlByIndexOf(url + '?[name]=zhangsan', '[name]')).toBe('zhangsan');
 
-                expect(parseUrlByIndexOf(url + '?+name=zhangsan', ' name')).toBe('zhangsan');
+                expect(parseUrlByIndexOf(url + '?%20name=zhangsan', ' name')).toBe('zhangsan');
 
                 expect(parseUrlByIndexOf(url + '?name=[zhangsan]', 'name')).toBe('[zhangsan]');
 
                 expect(parseUrlByIndexOf(url + '?[name]=[zhangsan]', '[name]')).toBe('[zhangsan]');
 
-                expect(parseUrlByIndexOf(url + '?name=+&zhangsan', 'name')).toBe(' ');
+                expect(parseUrlByIndexOf(url + '?name=%20&zhangsan', 'name')).toBe(' ');
 
-                expect(parseUrlByIndexOf(url + '?+name=+&zhangsan', ' name')).toBe(' ');
+                expect(parseUrlByIndexOf(url + '?%20name=%20&zhangsan', ' name')).toBe(' ');
 
             });
         });
