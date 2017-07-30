@@ -8,15 +8,19 @@ define(function () {
 
         var start = url.indexOf('?');
         var queryData = url.slice(start + 1);
-        var isOnlyOneParam = arguments.length < 2;
+        var hasKey = arguments.length >= 2;
 
-        key = isOnlyOneParam ? '' : key + '';
+        key = hasKey ? key + '' : '';
 
-        if (
-            (isOnlyOneParam || (!isOnlyOneParam && key === ''))
-            && (start < 0 || !queryData)
-        ) {
-            return {};
+        if (start < 0 || !queryData) {
+
+            if (!hasKey || hasKey && key === '') {
+                return {};
+            }
+
+            if (hasKey && key !== '') {
+                return '';
+            }
         }
 
         key = key.replace(/\s/g, '+');
