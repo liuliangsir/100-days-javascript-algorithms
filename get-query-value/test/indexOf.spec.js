@@ -6,15 +6,7 @@ define(function (require) {
 
     describe("url parse specs", function () {
 
-        const url;
-
-        beforeEach(function () {
-            url = 'https://www.baidu.com/';
-        });
-
-        afterEach(function () {
-            url = '';
-        });
+        const url = 'https://www.baidu.com/';
 
         describe('the result of parsing url should be empty object', function () {
             it('work for illegal url and no param key', function () {
