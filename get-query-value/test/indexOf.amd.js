@@ -16,8 +16,6 @@ define(function () {
             return key ? '' : {};
         }
 
-        key = key.replace(/\s/g, ' ');
-
         var legalKey = key ? key.replace(/[\-\[\]\{\}\(\)\*\+\?\.\,\\\^\$\|\#\s]/g, '\\$&') : key;
         var isGlobalSearch = !legalKey;
 
