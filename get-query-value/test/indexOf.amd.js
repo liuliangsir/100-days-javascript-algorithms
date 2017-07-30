@@ -4,15 +4,22 @@ define(function () {
 
     var parseUrlByIndexOf = function (url, key) {
 
-        key = (key || '').replace(/\s/g, '+');
+        url = url || document.location.href || location.href;
 
         var start = url.indexOf('?');
         var queryData = url.slice(start + 1);
+        var isOnlyOneParam = arguments.length < 2;
+
+        key = isOnlyOneParam ? '' : key + '';
 
         if (
-            (start < 0 && !key)
-            || !(queryData || key)
-        ) return {};
+            (isOnlyOneParam || (!isOnlyOneParam && key === ''))
+            && (start < 0 || !queryData)
+        ) {
+            return {};
+        }
+
+        key = key.replace(/\s/g, '+');
 
         var legalKey = key ? key.replace(/[\-\[\]\{\}\(\)\*\+\?\.\,\\\^\$\|\#\s]/g, '\\$&') : key;
         var isGlobalSearch = !legalKey;
@@ -24,12 +31,7 @@ define(function () {
         var result = queryData.match(regexp);
 
         if (!result) {
-
-            if (key) {
-                return '';
-            }
-            return {};
-
+            return key ? '' : {};
         }
 
         if (result.input) {
