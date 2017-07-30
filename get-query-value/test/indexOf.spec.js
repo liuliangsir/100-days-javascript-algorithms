@@ -101,9 +101,9 @@ define(function (require) {
 
             it('work for legal url (empty query data value and (il)legal param key)', function () {
 
-                expect(parseUrlByIndexOf(url + '?name='), 'name').toBe('');
+                expect(parseUrlByIndexOf(url + '?name=', 'name')).toBe('');
 
-                expect(parseUrlByIndexOf(url + '?[name]='), '[name]').toBe('');
+                expect(parseUrlByIndexOf(url + '?[name]=', '[name]')).toBe('');
 
             });
         });
