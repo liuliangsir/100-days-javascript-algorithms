@@ -4,7 +4,7 @@ define(function () {
 
     return {
 
-        cookie: document.cookies,
+        cookie: document.cookie,
 
         getCookie(key, cookie) {
 
