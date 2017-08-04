@@ -6,11 +6,11 @@ define(function () {
 
         cookie: document.cookie,
 
-        getCookie(key, cookie) {
+        getCookie(key) {
 
             var cookies = decodeURIComponent(this.cookie);
             var legalKey = key ? key.replace(/[\-\[\]\{\}\(\)\*\+\?\.\,\\\^\$\|\#\s]/g, '\\$&') : '' + key;
-            var regexp = new RegExp(legalKey + '\=([^;]+)');
+            var regexp = new RegExp('(?:;\s+)?' + legalKey + '=([^;]*)');
             var result = cookies.match(regexp);
 
             if (!result) {
@@ -44,15 +44,13 @@ define(function () {
             }).map(function (v) {
 
                 if (v === 'expires') {
-                    return [v, new Date(Date.now() +  (cookie[v] * 24 * 60 * 60 * 1000)).toUTCString()];
+                    return [v, new Date(Date.now() +  (params[v] * 24 * 60 * 60 * 1000)).toUTCString()];
                 }
                 else if (v === 'secure') {
                     return [v];
                 }
                 else if (v === 'httpOnly') {
-                    return [v.replace(/\b\w/, function (firstChar) {
-                        return firstChar.toUpperCase();
-                    })]
+                    return ['HttpOnly'];
                 }
 
                 return [v, cookie[v]];
@@ -61,7 +59,7 @@ define(function () {
                 return v.join('=');
             }).join('; ');
 
-            return this.cookie = key + '=' + value + '; ' + suffix;
+            return this.cookie = encodeURIComponent(key + '=' + value + (suffix ? '; ' + suffix : ''));
         }
     };
 });
