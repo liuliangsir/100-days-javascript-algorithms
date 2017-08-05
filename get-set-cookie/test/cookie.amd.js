@@ -29,7 +29,7 @@ define(function () {
             }
 
             return keys.reduce(function (pre, cur) {
-                pre[cur] = self.getCookie(cur, cookie);
+                pre[cur] = self.getCookie(cur);
                 return pre;
             }, {});
 

@@ -59,3 +59,4 @@ chartptn/migrations/__pycache__/
 *.js.map
 # json
 json/
+coverage/

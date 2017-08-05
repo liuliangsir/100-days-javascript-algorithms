@@ -23,7 +23,7 @@ module.exports = {
         // lcovonly | none | teamcity
         type : 'text|html',
         dir : 'test/coverage/',
-        exclude: []
+        exclude: ['']
     },
 
     // web server port
@@ -51,7 +51,7 @@ module.exports = {
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: true,
+    singleRun: false,
 
 
     // Custom HTML templates
