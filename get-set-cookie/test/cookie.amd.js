@@ -39,8 +39,10 @@ define(function () {
 
             var keys = ['expires', 'domain', 'path', 'secure', 'httpOnly'];
 
-            var suffix = Object.keys(params).filter(function (v) {
-                return keys.indexOf(v) > -1;
+            var suffix = keys.filter(function (v, k) {
+
+                return params[k] !== void 0;
+
             }).map(function (v) {
 
                 if (v === 'expires') {
