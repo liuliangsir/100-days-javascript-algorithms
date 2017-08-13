@@ -57,11 +57,9 @@ define(function (require) {
                     )
                 );
             });
-
         });
 
         describe('设置cookie失败', function () {
-
             it('name, value, expires, domain, path, secure, HttpOnly存在', function () {
                 var result = cookieUtil.setCookie('cookie6', 100, 5, 'abc.com', '/blog', true, true);
 
@@ -76,13 +74,10 @@ define(function (require) {
                     )
                 );
             });
-
         });
 
         describe('获取cookie成功', function () {
-
             it('key有效，cookie不为空', function () {
-
                 cookieUtil.setCookie('cookie1', 100);
                 expect(cookieUtil.getCookie('cookie1', cookieUtil.cookie)).toBe('100');
 
@@ -98,11 +93,9 @@ define(function (require) {
                 cookieUtil.setCookie('cookie5', 100);
                 expect(cookieUtil.getCookie('cookie5', cookieUtil.cookie)).toBe('100');
             });
-
         });
 
         describe('获取cookie失败', function () {
-
             it('key有效，cookie为空', function () {
                 expect(cookieUtil.getCookie('coo', cookieUtil.cookie)).toBeNull();
             });
@@ -116,6 +109,5 @@ define(function (require) {
                 expect(cookieUtil.getCookie('; cookie', cookieUtil.cookie)).toBeNull();
             });
         });
-
     });
 });
