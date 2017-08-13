@@ -5,23 +5,57 @@ define(function (require) {
     var cookieUtil = require('./cookie.amd');
 
     describe("操作cookie", function () {
-
         describe('设置cookie成功', function () {
-
             it('name, value存在', function () {
-                expect(cookieUtil.setCookie('cookie1', 100)).toBe(encodeURIComponent('cookie1=100'));
+                var result = cookieUtil.setCookie('cookie1', 100);
+
+                expect(result[0]).toBe(encodeURIComponent('cookie1=100'));
             });
             it('name, value, expires存在', function () {
-                expect(cookieUtil.setCookie('cookie2', 100, 5)).toBe(encodeURIComponent('cookie2=100'));
+                var result = cookieUtil.setCookie('cookie2', 100, 5);
+
+                expect(result[0])
+                .toBe(encodeURIComponent(
+                        'cookie2=100; expires='
+                        + new Date(result[1]).toUTCString()
+                    )
+                );
             });
             it('name, value, expires, domain存在', function () {
-                expect(cookieUtil.setCookie('cookie3', 100, 5, 'abc.com')).toBe(encodeURIComponent('cookie3=100'));
+                var result = cookieUtil.setCookie('cookie3', 100, 5, 'abc.com');
+
+                expect(result[0])
+                .toBe(encodeURIComponent(
+                        'cookie3=100; expires='
+                        + new Date(result[1]).toUTCString()
+                        + '; domain=abc.com'
+                    )
+                );
             });
             it('name, value, expires, domain, path存在', function () {
-                expect(cookieUtil.setCookie('cookie4', 100, 5, 'abc.com', '/blog')).toBe(encodeURIComponent('cookie4=100'));
+                var result = cookieUtil.setCookie('cookie4', 100, 5, 'abc.com', '/blog');
+
+                expect(result[0])
+                .toBe(encodeURIComponent(
+                        'cookie4=100; expires='
+                        + new Date(result[1]).toUTCString()
+                        + '; domain=abc.com'
+                        + '; path=/blog'
+                    )
+                );
             });
             it('name, value, expires, domain, path, secure存在', function () {
-                expect(cookieUtil.setCookie('cookie5', 100, 5, 'abc.com', '/blog', true)).toBe(encodeURIComponent('cookie5=100'));
+                var result = cookieUtil.setCookie('cookie5', 100, 5, 'abc.com', '/blog', true);
+
+                expect(result[0])
+                .toBe(encodeURIComponent(
+                        'cookie5=100; expires='
+                        + new Date(result[1]).toUTCString()
+                        + '; domain=abc.com'
+                        + '; path=/blog'
+                        + '; secure'
+                    )
+                );
             });
 
         });
@@ -29,7 +63,18 @@ define(function (require) {
         describe('设置cookie失败', function () {
 
             it('name, value, expires, domain, path, secure, HttpOnly存在', function () {
-                expect(cookieUtil.setCookie('cookie6', 100, 5, 'abc.com', '/blog', true, true)).toBe(encodeURIComponent('cookie6=100'));
+                var result = cookieUtil.setCookie('cookie6', 100, 5, 'abc.com', '/blog', true, true);
+
+                expect(result[0])
+                .toBe(encodeURIComponent(
+                        'cookie6=100; expires='
+                        + new Date(result[1]).toUTCString()
+                        + '; domain=abc.com'
+                        + '; path=/blog'
+                        + '; secure'
+                        + '; HttpOnly'
+                    )
+                );
             });
 
         });

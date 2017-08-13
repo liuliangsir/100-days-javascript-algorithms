@@ -7,7 +7,6 @@ define(function () {
         cookie: document.cookie,
 
         getCookie(key) {
-
             var cookies = decodeURIComponent(this.cookie);
             var legalKey = key ? key.replace(/[\-\[\]\{\}\(\)\*\+\?\.\,\\\^\$\|\#\s]/g, '\\$&') : '' + key;
             var regexp = new RegExp('(?:;\s+)?' + legalKey + '=([^;]*)');
@@ -21,7 +20,6 @@ define(function () {
         },
 
         getCookies(...keys) {
-
             var self = this;
 
             if (Array.isArray(keys[0])) {
@@ -32,21 +30,18 @@ define(function () {
                 pre[cur] = self.getCookie(cur);
                 return pre;
             }, {});
-
         },
 
         setCookie(key, value, ...params) {
-
             var keys = ['expires', 'domain', 'path', 'secure', 'httpOnly'];
+            var millisecond = 0;
 
             var suffix = keys.filter(function (v, k) {
-
                 return params[k] !== void 0;
-
-            }).map(function (v) {
-
+            }).map(function (v, k) {
                 if (v === 'expires') {
-                    return [v, new Date(Date.now() +  (params[v] * 24 * 60 * 60 * 1000)).toUTCString()];
+                    millisecond = Date.now() +  (params[k] * 24 * 60 * 60 * 1000);
+                    return [v, new Date(millisecond).toUTCString()];
                 }
                 else if (v === 'secure') {
                     return [v];
@@ -54,14 +49,12 @@ define(function () {
                 else if (v === 'httpOnly') {
                     return ['HttpOnly'];
                 }
-
-                return [v, cookie[v]];
-
+                return [v, params[k]];
             }).map(function (v) {
                 return v.join('=');
             }).join('; ');
 
-            return this.cookie = encodeURIComponent(key + '=' + value + (suffix ? '; ' + suffix : ''));
+            return [this.cookie = encodeURIComponent(key + '=' + value + (suffix ? '; ' + suffix : '')), millisecond];
         }
     };
 });
