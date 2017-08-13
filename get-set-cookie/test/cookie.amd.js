@@ -3,11 +3,8 @@ define(function () {
     'use strict';
 
     return {
-
-        cookie: document.cookie,
-
         getCookie(key) {
-            var cookies = decodeURIComponent(this.cookie);
+            var cookies = decodeURIComponent(document.cookie);
             var legalKey = key ? key.replace(/[\-\[\]\{\}\(\)\*\+\?\.\,\\\^\$\|\#\s]/g, '\\$&') : '' + key;
             var regexp = new RegExp('(?:;\s+)?' + legalKey + '=([^;]*)');
             var result = cookies.match(regexp);
@@ -54,7 +51,9 @@ define(function () {
                 return v.join('=');
             }).join('; ');
 
-            return [this.cookie = encodeURIComponent(key + '=' + value + (suffix ? '; ' + suffix : '')), millisecond];
+            document.cookie = encodeURIComponent(key + '=' + value + (suffix ? '; ' + suffix : ''));
+
+            return millisecond;
         }
     };
 });
