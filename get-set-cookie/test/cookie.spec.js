@@ -12,7 +12,8 @@ define(function (require) {
                     value: 100
                 });
 
-                expect(document.cookie).toBe('cookie1=100');
+                expect(document.cookie)
+                .toBe('cookie1=100');
             });
             it('name, value, expires存在', function () {
                 var millisecond = cookieUtil.setCookie({

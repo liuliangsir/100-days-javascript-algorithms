@@ -26,6 +26,7 @@ define(function () {
             if (!keys.length) {
                 keys = document.cookie.match(/[^;\s]+?(?=\=)/g);
             }
+
             return keys.reduce(function (pre, cur) {
                 pre[cur] = self.getCookie(cur);
                 return pre;

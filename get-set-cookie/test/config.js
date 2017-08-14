@@ -23,7 +23,7 @@ module.exports = {
         // lcovonly | none | teamcity
         type : 'text|html',
         dir : 'test/coverage/',
-        exclude: ['']
+        exclude: ['*.spec.js', 'config.js']
     },
 
     // web server port
