@@ -3,17 +3,32 @@ define(function () {
     'use strict';
 
     return {
-        getCookie(key) {
-            var cookies = decodeURIComponent(document.cookie);
+        cookie: {},
+
+        getCookie(key, isGlobalSearch = false) {
+            var template = decodeURIComponent(document.cookie);
             var legalKey = key ? key.replace(/[\-\[\]\{\}\(\)\*\+\?\.\,\\\^\$\|\#\s]/g, '\\$&') : '' + key;
             var regexp = new RegExp('(?:;\s+)?' + legalKey + '=([^;]*)');
-            var result = cookies.match(regexp);
+            var result = template.match(regexp);
 
             if (!result) {
                 return null;
             }
 
-            return result[1];
+            if (!isGlobalSearch) {
+                return result[1];
+            }
+
+            template = this.cookie[key + '=' + result[1]];
+            regexp = /[^;]+(?=;\s+)?/g;
+
+            return template.match(regexp).map(function (v) {
+                return v.trim();
+            }).reduce(function (pre, cur) {
+                const [k, v] = cur.split('=');
+                pre[k] = v;
+                return pre;
+            }, {});
         },
 
         getCookies(...keys) {
@@ -33,36 +48,72 @@ define(function () {
             }, {});
         },
 
-        setCookie(param = {expires: 0, domain: '.com', path: '/', secure: true, httpOnly: true}) {
+        setCookie(param = {}) {
             var millisecond = 0;
-            var cookie = Object.keys(param).filter(function (v) {
+            var newParam = Object.assign({}, {
+                key: '',
+                expires: 0,
+                domain: '192.168.1.102',
+                path: '/',
+                secure: false,
+                httpOnly: false
+            }, param);
+
+            var cookie = Object.keys(newParam).filter(function (v) {
                 return v !== 'value';
             }).map(function (v) {
                 if (v === 'key') {
-                    return [param[v], encodeURIComponent(param.value)];
+                    return [newParam.key, encodeURIComponent(newParam.value)];
                 }
                 else if (v === 'expires') {
-                    millisecond = param[v]
-                        ? Date.now() +  (param[v] * 24 * 60 * 60 * 1000)
+                    millisecond = newParam.expires
+                        ? (newParam.expires > 0
+                            ? Date.now() +  (newParam.expires * 24 * 60 * 60 * 1000)
+                            : Date.now() - 1000
+                        )
                         : Date.now();
-
                     return [
                         v,
                         new Date(millisecond).toUTCString()
                     ];
                 }
                 else if (v === 'secure') {
-                    return [v];
+                    return newParam[v] ? [v] : '';
                 }
                 else if (v === 'httpOnly') {
-                    return ['HttpOnly'];
+                    return newParam[v] ? ['HttpOnly'] : '';
                 }
-                return [v, encodeURIComponent(param[v])];
+                return [v, newParam[v]];
+            }).filter(function (v) {
+                return v !== '';
             }).map(function (v) {
                 return v.join('=');
             }).join('; ');
 
+            if (newParam.expires && !newParam.secure && !newParam.httpOnly) {
+                this.cookie[newParam.key + '=' + newParam.value] = cookie;
+            }
+
             document.cookie = cookie;
+        },
+
+        removeCookie(key) {
+            var cookie = this.getCookie(key, true);
+
+            if (!cookie) {
+                return !!cookie;
+            }
+
+            this.setCookie({
+                key,
+                value: cookie[key],
+                path: cookie.path,
+                domain: cookie.domain,
+                expires: -1,
+                httpOnly: cookie.httpOnly,
+                secure: cookie.secure
+            });
+            return !this.getCookie(key);
         }
     };
 });
