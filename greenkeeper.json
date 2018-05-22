@@ -1,0 +1,12 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "get-query-value/package.json",
+        "get-set-cookie/package.json",
+        "show-large-number/package.json",
+        "show-large-stock-number/package.json"
+      ]
+    }
+  }
+}
