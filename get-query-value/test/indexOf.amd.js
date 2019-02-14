@@ -1,41 +1,30 @@
 define(function () {
-
     'use strict';
 
     var parseUrlByIndexOf = function (url, key) {
-
-        url = url || document.location.href || location.href;
+        key = key || '';
 
         var start = url.indexOf('?');
-        var queryData = decodeURIComponent(url.slice(start + 1));
-        var hasKey = arguments.length > 1;
+        if (start < 0) return '';
 
-        key = hasKey ? key + '' : '';
-
-        if (start < 0 || !queryData) {
-            return key ? '' : {};
-        }
-
+        var queryData = url.slice(start + 1);
         var legalKey = key ? key.replace(/[\-\[\]\{\}\(\)\*\+\?\.\,\\\^\$\|\#\s]/g, '\\$&') : key;
         var isGlobalSearch = !legalKey;
-
         var regexp = isGlobalSearch
-            ? new RegExp('[^&]+?=?([^&]+)(?=&)?', 'gi')
+            ? new RegExp('[^&]+?=([^&]+)(?=&)?', 'gi')
             : new RegExp('(^|&)' + legalKey + '=([^&]+)(?=&)?', 'i');
 
         var result = queryData.match(regexp);
-
         if (!result) {
-            return key ? '' : {};
+            return '';
         }
-
         if (result.input) {
-            return result[2];
+            return decodeURIComponent(result[2]);
         }
 
         return result.reduce(function (pre, cur) {
             var parts = cur.split('=');
-            pre[parts[0]] = parts[1] || '';
+            pre[parts[0]] = decodeURIComponent(parts[1]);
             return pre;
         }, {});
     };

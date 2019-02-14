@@ -1,10 +1,8 @@
 define(function () {
-
     'use strict';
 
     return {
         cookie: {},
-
         getCookie(key, isGlobalSearch = false) {
             var template = decodeURIComponent(document.cookie);
             var legalKey = key ? key.replace(/[\-\[\]\{\}\(\)\*\+\?\.\,\\\^\$\|\#\s]/g, '\\$&') : '' + key;
@@ -30,7 +28,6 @@ define(function () {
                 return pre;
             }, {});
         },
-
         getCookies(...keys) {
             var self = this;
 
@@ -47,18 +44,16 @@ define(function () {
                 return pre;
             }, {});
         },
-
         setCookie(param = {}) {
             var millisecond = 0;
             var newParam = Object.assign({}, {
                 key: '',
                 expires: 0,
-                domain: '192.168.1.102',
+                domain: '',
                 path: '/',
                 secure: false,
                 httpOnly: false
             }, param);
-
             var cookie = Object.keys(newParam).filter(function (v) {
                 return v !== 'value';
             }).map(function (v) {
@@ -96,7 +91,6 @@ define(function () {
 
             document.cookie = cookie;
         },
-
         removeCookie(key) {
             var cookie = this.getCookie(key, true);
 
@@ -113,6 +107,7 @@ define(function () {
                 httpOnly: cookie.httpOnly,
                 secure: cookie.secure
             });
+
             return !this.getCookie(key);
         }
     };
